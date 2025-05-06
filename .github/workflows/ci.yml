@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  pull_request
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [ 20, 22, 24 ]
+    name: Build and test with Node ${{ matrix.node }}
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+      with:
+        mise_toml: |
+          [tools]
+          node = "${{ matrix.node }}"
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+    - run: npm test
+
+  prettier:
+    runs-on: ubuntu-latest
+    name: Prettier
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run prettier-check
+
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run lint
+
+  spell-check:
+    runs-on: ubuntu-latest
+    name: Spell Check
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run spell-check
