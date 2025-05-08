@@ -46,11 +46,16 @@ export function expressMiddleware<TContext extends BaseContext>(
     options?.context ?? defaultContext;
 
   return (req, res, next) => {
-    if (!req.body) {
-      // The json body-parser *always* sets req.body to {} if it's unset (even
-      // if the Content-Type doesn't match), so if it isn't set, you probably
-      // forgot to set up body-parser. (Note that this may change in the future
-      // body-parser@2.)
+    if (!('body' in req)) {
+      // The json body-parser *always* initializes the `body` field on requests
+      // when it runs.  (body-parser@1 (included in Express v4 as
+      // `express.json()`) sets it to `{}` by default, and body-parser@2
+      // (included in Express v5 as `express.json()`) sets to to `undefined` by
+      // default.)
+      //
+      // So if the field is *completely* missing (not merely set to undefined,
+      // but actually not there), you probably forgot to set up body-parser. We
+      // send a nice error in this case to help with debugging.
       res.status(500);
       res.send(
         '`req.body` is not set; this probably means you forgot to set up the ' +

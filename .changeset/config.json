@@ -2,7 +2,7 @@
   "$schema": "https://unpkg.com/@changesets/config@1.6.3/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "apollo-server-integrations/apollo-server-integration-express4" }
+    { "repo": "apollo-server-integrations/apollo-server-integration-express5" }
   ],
   "commit": false,
   "access": "public",

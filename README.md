@@ -1,21 +1,21 @@
-# Apollo Server Integration for Express v4
+# Apollo Server Integration for Express v5
 
 ## **Introduction**
 
-This package integrates Apollo Server v4 with version 4 of the Express web framework, by exporting a middleware that executes GraphQL operations.
+This package integrates Apollo Server v4 with version 5 of the Express web framework, by exporting a middleware that executes GraphQL operations.
 
-It is identical to the middleware exported at `@apollo/server/express4` from the core `@apollo/server` v4 package. It is being provided separately so that we can also provide an integration with Express v5 (`@as-integrations/express5`); future major versions of Apollo Server will not have built-in support for Express.
+It is identical to the middleware exported at `@apollo/server/express5` from the core `@apollo/server` v4 package, updated to support Express v5 instead of Express v4.
 
 ## **Requirements**
 
 - **[Node.js v20](https://nodejs.org/)** or later
-- **[Express v4](https://expressjs.com/)**; this package does *not* support Express v5
+- **[Express v5](https://expressjs.com/)**; see `@as-integrations/express4` for Express v4 support
 - **[Apollo Server v4](https://www.apollographql.com/docs/apollo-server/)**
 
 ## **Installation**
 
 ```bash
-npm install @apollo/server graphql express@4 @as-integrations/express4 cors
+npm install @apollo/server graphql express@5 @as-integrations/express5 cors
 ```
 
 ## **Usage**
@@ -24,7 +24,7 @@ Set up [Express](https://expressjs.com/) & [Apollo Server](https://www.apollogra
 
 ```typescript
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from '@as-integrations/express4';
+import { expressMiddleware } from '@as-integrations/express5';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import express from 'express';
 import http from 'http';
