@@ -53,3 +53,19 @@ jobs:
     - uses: actions/checkout@v4
     - uses: ./.github/actions/node
     - run: npm run spell-check
+
+  # Ensure that any PR that changes packages has a changeset on it (perhaps an
+  # empty one created with `changeset --empty`). We run the Changesets job
+  # itself on all branches so that we can require it to pass, gbut we don't run
+  # the actual check on the "Version Packages" PRs themselves.
+  changeset:
+    runs-on: ubuntu-latest
+    name: Changesets
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        # This makes Actions fetch all Git history so that Changesets can generate changelogs with the correct commits
+        fetch-depth: 0
+    - uses: ./.github/actions/node
+    - run: npm run changeset-check
+      if: ${{ ! startsWith(github.head_ref, 'changeset-release/') }}
