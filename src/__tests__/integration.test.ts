@@ -1,10 +1,14 @@
 import type { ApolloServerOptions, BaseContext } from '@apollo/server';
 import { ApolloServer } from '@apollo/server';
-import type { CreateServerForIntegrationTestsOptions } from '@apollo/server-integration-testsuite';
+import type {
+  CreateServerForIntegrationTestsOptions,
+  CreateServerForIntegrationTestsResult,
+} from '@apollo/server-integration-testsuite';
 import { defineIntegrationTestSuite } from '@apollo/server-integration-testsuite';
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer';
 import cors from 'cors';
 import express, { json } from 'express';
+import type { RequestListener } from 'http';
 import http from 'http';
 import { expressMiddleware } from '..';
 import { urlForHttpServer } from './utils';
@@ -12,9 +16,9 @@ import { urlForHttpServer } from './utils';
 defineIntegrationTestSuite(async function (
   serverOptions: ApolloServerOptions<BaseContext>,
   testOptions?: CreateServerForIntegrationTestsOptions,
-) {
+): Promise<CreateServerForIntegrationTestsResult> {
   const app = express();
-  const httpServer = http.createServer(app);
+  const httpServer = http.createServer(app as RequestListener);
   const server = new ApolloServer({
     ...serverOptions,
     plugins: [
