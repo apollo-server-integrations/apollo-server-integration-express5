@@ -23,6 +23,23 @@ jobs:
     - run: npm ci
     - run: npm test
 
+  # This runs against an old alpha of GraphQL v17; hopefully Apollo Server v5
+  # will support the released version when they both come out.
+  graphql-17-alpha-incremental-delivery:
+    runs-on: ubuntu-latest
+    name: Test against GraphQL 17 alpha with incremental delivery
+    steps:
+    - uses: actions/checkout@v4
+    - uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+    - run: npm i --legacy-peer-deps graphql@17.0.0-alpha.2
+    - run: npm test
+      env:
+        INCREMENTAL_DELIVERY_TESTS_ENABLED: 't'
+
   prettier:
     runs-on: ubuntu-latest
     name: Prettier
