@@ -45,7 +45,7 @@ export function expressMiddleware<TContext extends BaseContext>(
   const context: ContextFunction<[ExpressContextFunctionArgument], TContext> =
     options?.context ?? defaultContext;
 
-  return (req, res, next) => {
+  return async (req, res) => {
     if (!('body' in req)) {
       // The json body-parser *always* initializes the `body` field on requests
       // when it runs.  (body-parser@1 (included in Express v4 as
@@ -84,37 +84,34 @@ export function expressMiddleware<TContext extends BaseContext>(
       body: req.body,
     };
 
-    server
-      .executeHTTPGraphQLRequest({
-        httpGraphQLRequest,
-        context: () => context({ req, res }),
-      })
-      .then(async (httpGraphQLResponse) => {
-        for (const [key, value] of httpGraphQLResponse.headers) {
-          res.setHeader(key, value);
-        }
-        res.statusCode = httpGraphQLResponse.status || 200;
+    const httpGraphQLResponse = await server.executeHTTPGraphQLRequest({
+      httpGraphQLRequest,
+      context: () => context({ req, res }),
+    });
 
-        if (httpGraphQLResponse.body.kind === 'complete') {
-          res.send(httpGraphQLResponse.body.string);
-          return;
-        }
+    for (const [key, value] of httpGraphQLResponse.headers) {
+      res.setHeader(key, value);
+    }
+    res.statusCode = httpGraphQLResponse.status || 200;
 
-        for await (const chunk of httpGraphQLResponse.body.asyncIterator) {
-          res.write(chunk);
-          // Express/Node doesn't define a way of saying "it's time to send this
-          // data over the wire"... but the popular `compression` middleware
-          // (which implements `accept-encoding: gzip` and friends) does, by
-          // monkey-patching a `flush` method onto the response. So we call it
-          // if it's there.
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-          if (typeof (res as any).flush === 'function') {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-            (res as any).flush();
-          }
-        }
-        res.end();
-      })
-      .catch(next);
+    if (httpGraphQLResponse.body.kind === 'complete') {
+      res.send(httpGraphQLResponse.body.string);
+      return;
+    }
+
+    for await (const chunk of httpGraphQLResponse.body.asyncIterator) {
+      res.write(chunk);
+      // Express/Node doesn't define a way of saying "it's time to send this
+      // data over the wire"... but the popular `compression` middleware
+      // (which implements `accept-encoding: gzip` and friends) does, by
+      // monkey-patching a `flush` method onto the response. So we call it
+      // if it's there.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+      if (typeof (res as any).flush === 'function') {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+        (res as any).flush();
+      }
+    }
+    res.end();
   };
 }
