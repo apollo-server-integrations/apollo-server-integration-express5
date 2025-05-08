@@ -18,6 +18,9 @@ defineIntegrationTestSuite(async function (
   testOptions?: CreateServerForIntegrationTestsOptions,
 ): Promise<CreateServerForIntegrationTestsResult> {
   const app = express();
+  // See
+  // https://github.com/DefinitelyTyped/DefinitelyTyped/pull/70563#issuecomment-2676702572
+  // for why we have this `as`.
   const httpServer = http.createServer(app as RequestListener);
   const server = new ApolloServer({
     ...serverOptions,
