@@ -12,15 +12,9 @@ jobs:
     name: Build and test with Node ${{ matrix.node }}
     steps:
     - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
+    - uses: ./.github/actions/node
       with:
-        mise_toml: |
-          [tools]
-          node = "${{ matrix.node }}"
-    - uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
-    - run: npm ci
+        node-version-override: ${{ matrix.node }}
     - run: npm test
 
   # This runs against an old alpha of GraphQL v17; hopefully Apollo Server v5
@@ -30,11 +24,7 @@ jobs:
     name: Test against GraphQL 17 alpha with incremental delivery
     steps:
     - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
-    - uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
-    - run: npm ci
+    - uses: ./.github/actions/node
     - run: npm i --legacy-peer-deps graphql@17.0.0-alpha.2
     - run: npm test
       env:
@@ -45,11 +35,7 @@ jobs:
     name: Prettier
     steps:
     - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
-    - uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
-    - run: npm ci
+    - uses: ./.github/actions/node
     - run: npm run prettier-check
 
   lint:
@@ -57,11 +43,7 @@ jobs:
     name: Lint
     steps:
     - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
-    - uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
-    - run: npm ci
+    - uses: ./.github/actions/node
     - run: npm run lint
 
   spell-check:
@@ -69,9 +51,5 @@ jobs:
     name: Spell Check
     steps:
     - uses: actions/checkout@v4
-    - uses: jdx/mise-action@v2
-    - uses: actions/setup-node@v4
-      with:
-        cache: 'npm'
-    - run: npm ci
+    - uses: ./.github/actions/node
     - run: npm run spell-check

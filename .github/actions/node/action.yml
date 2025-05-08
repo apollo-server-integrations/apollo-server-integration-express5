@@ -1,0 +1,22 @@
+name: 'Get ready for Node'
+description: 'Sets up Node using Mise and installs'
+inputs:
+  node-version-override:
+    description: 'Override Node version'
+    required: false
+runs:
+  using: "composite"
+  steps:
+    - if: ${{ inputs.node-version-override }}
+      uses: jdx/mise-action@v2
+      with:
+        mise_toml: |
+          [tools]
+          node = "${{ inputs.node-version-override }}"
+    - if: ${{ ! inputs.node-version-override }}
+      uses: jdx/mise-action@v2
+    - uses: actions/setup-node@v4
+      with:
+        cache: 'npm'
+    - run: npm ci
+      shell: bash
