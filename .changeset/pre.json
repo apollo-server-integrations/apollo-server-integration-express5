@@ -5,6 +5,7 @@
     "@as-integrations/express5": "1.0.0"
   },
   "changesets": [
+    "good-facts-watch",
     "modern-kiwis-look"
   ]
 }
