@@ -1,14 +1,11 @@
-import type { Config } from '@jest/types';
+import type { Config } from 'jest';
+import { createDefaultEsmPreset } from 'ts-jest';
 
-const config: Config.InitialOptions = {
-  preset: 'ts-jest',
-  testEnvironment: 'node',
-  roots: ['src'],
-  transform: {
-    '/__tests__/.*.test.ts$': ['ts-jest', { tsconfig: 'tsconfig.test.json' }],
-  },
+const presetConfig = createDefaultEsmPreset({
+  tsconfig: 'tsconfig.test.json',
+});
+
+export default {
+  ...presetConfig,
   testRegex: '/__tests__/.*.test.ts$',
-  verbose: true,
-};
-
-export default config;
+} satisfies Config;
