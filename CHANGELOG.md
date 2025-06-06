@@ -1,11 +1,5 @@
 # @as-integrations/express5
 
-## 2.0.0-alpha.1
-
-### Patch Changes
-
-- [#14](https://github.com/apollo-server-integrations/apollo-server-integration-express5/pull/14) [`fa9111b`](https://github.com/apollo-server-integrations/apollo-server-integration-express5/commit/fa9111b7930831c3d09baad53490baf9e65f7ac4) Thanks [@glasser](https://github.com/glasser)! - Make more compatible with CJS TS apps
-
 ## 2.0.0-alpha.0
 
 ### Major Changes
