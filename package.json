@@ -12,12 +12,10 @@
   "bugs": {
     "url": "https://github.com/apollo-server-integrations/apollo-server-integration-express5/issues"
   },
-  "type": "module",
-  "exports": {
-    ".": "./dist/index.js"
-  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "engines": {
-    "node": ">=20.19"
+    "node": ">=20"
   },
   "scripts": {
     "build": "tsc --build tsconfig.build.json",
@@ -29,16 +27,14 @@
     "changeset-check": "changeset status --verbose --since=origin/main",
     "changeset-version": "changeset version && npm i",
     "spell-check": "cspell lint '**' --no-progress || (echo 'Add any real words to cspell-dict.txt.'; exit 1)",
-    "pretest": "npm run build",
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules --disable-warning=ExperimentalWarning\" jest",
-    "test:ci": "npm run test --coverage --ci --maxWorkers=2 --reporters=default --reporters=jest-junit",
+    "test": "jest",
+    "test:ci": "jest --coverage --ci --maxWorkers=2 --reporters=default --reporters=jest-junit",
     "watch": "tsc --build --watch",
-    "prelint": "npm run build",
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@apollo/server": "4.12.2",
-    "@apollo/server-integration-testsuite": "4.12.2",
+    "@apollo/server": "4.12.0",
+    "@apollo/server-integration-testsuite": "4.12.0",
     "@apollo/utils.withrequired": "3.0.0",
     "@changesets/changelog-github": "0.5.1",
     "@changesets/cli": "2.29.3",
