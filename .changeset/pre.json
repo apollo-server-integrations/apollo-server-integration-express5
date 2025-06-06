@@ -4,7 +4,5 @@
   "initialVersions": {
     "@as-integrations/express5": "1.0.0"
   },
-  "changesets": [
-    "modern-kiwis-look"
-  ]
+  "changesets": []
 }
