@@ -4,5 +4,9 @@
   "initialVersions": {
     "@as-integrations/express5": "1.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "dual-build-cjs-esm",
+    "silly-taxis-attend",
+    "soft-lemons-lay"
+  ]
 }
