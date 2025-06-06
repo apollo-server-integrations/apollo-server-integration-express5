@@ -2,10 +2,10 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-    "target": "ESNext",
-    "module": "NodeNext",
+    "target": "es2020",
+    "module": "commonjs",
+    "moduleResolution": "node",
     "esModuleInterop": true,
-    "isolatedModules": true,
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
