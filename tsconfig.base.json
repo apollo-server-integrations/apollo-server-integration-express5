@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "composite": true,
     "rootDir": "./src",
-    "outDir": "./dist",
+    "outDir": "./dist/esm",
     "target": "es2020",
-    "module": "commonjs",
+    "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "sourceMap": true,
