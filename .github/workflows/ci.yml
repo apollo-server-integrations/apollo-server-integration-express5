@@ -1,8 +1,14 @@
 name: CI
 
 on:
-- pull_request
-- workflow_dispatch
+  pull_request:
+    types:
+    - opened
+    - reopened
+    - synchronize
+    # So you can add a label to make it run, including no-changeset-needed
+    - labeled
+    - unlabeled
 
 jobs:
   build-and-test:
@@ -62,6 +68,7 @@ jobs:
   changeset:
     runs-on: ubuntu-latest
     name: Changesets
+    if: ${{ (! startsWith(github.head_ref, 'changeset-release/')) && (!contains(github.event.pull_request.labels.*.name, 'no-changeset-needed')) }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -69,4 +76,3 @@ jobs:
         fetch-depth: 0
     - uses: ./.github/actions/node
     - run: npm run changeset-check
-      if: ${{ ! startsWith(github.head_ref, 'changeset-release/') }}
