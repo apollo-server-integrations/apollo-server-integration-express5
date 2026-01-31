@@ -8,13 +8,13 @@ runs:
   using: "composite"
   steps:
     - if: ${{ inputs.node-version-override }}
-      uses: jdx/mise-action@v2
+      uses: jdx/mise-action@v3
       with:
         mise_toml: |
           [tools]
           node = "${{ inputs.node-version-override }}"
     - if: ${{ ! inputs.node-version-override }}
-      uses: jdx/mise-action@v2
+      uses: jdx/mise-action@v3
     - uses: actions/setup-node@v4
       with:
         cache: 'npm'
