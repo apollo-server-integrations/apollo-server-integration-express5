@@ -45,7 +45,8 @@ export function expressMiddleware<TContext extends BaseContext>(
   const context: ContextFunction<[ExpressContextFunctionArgument], TContext> =
     options?.context ?? defaultContext;
 
-  return async (req, res) => {
+  // Return the middleware as a named function for observability.
+  return async function apolloGraphQL(req, res) {
     if (!('body' in req)) {
       // The json body-parser *always* initializes the `body` field on requests
       // when it runs.  (body-parser@1 (included in Express v4 as
