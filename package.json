@@ -61,7 +61,7 @@
     "@types/supertest": "6.0.3",
     "compression": "1.8.0",
     "cors": "2.8.5",
-    "cspell": "9.0.2",
+    "cspell": "10.2.2",
     "eslint": "9.28.0",
     "express": "5.1.0",
     "graphql": "16.11.0",
