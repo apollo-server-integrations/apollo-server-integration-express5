@@ -46,7 +46,7 @@
     "lint": "eslint ."
   },
   "devDependencies": {
-    "@apollo/server": "4.12.2",
+    "@apollo/server": "5.5.0",
     "@apollo/server-integration-testsuite": "4.12.2",
     "@apollo/utils.withrequired": "3.0.0",
     "@changesets/changelog-github": "0.5.1",
